@@ -1,0 +1,7 @@
+website:
+  sidebar:
+    contents:
+      - index.ipynb
+      - session_1.ipynb
+      - session_2.ipynb
+      - session_3.ipynb
