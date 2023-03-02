@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "workshop-kenya"
+  site-url: "https://kevinkorfmann.github.io/workshop-kenya"
+  description: "Workshop Kenya"
+  repo-branch: main
+  repo-url: "https://github.com/kevinkorfmann/workshop-kenya"
