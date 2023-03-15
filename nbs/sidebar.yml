@@ -2,8 +2,10 @@ website:
   sidebar:
     contents:
       - index.ipynb
+      - Introduction_to_Deep_Learning.ipynb
+      - autoencoder.html
       - installation-guide.ipynb
       - session_1.ipynb
+      - session_1_example.ipynb
       - session_2.ipynb
       - session_3.ipynb
-
