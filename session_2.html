@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A brief introduction to DL related to the field of Population Genetics is summarised by Korfmann et al.&nbsp;(2023).">
+
+<title>workshop-kenya - 2. Session - Introduction to Deep Learning and Dataset Generation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="workshop-kenya - 2. Session - Introduction to Deep Learning and Dataset Generation">
+<meta property="og:description" content="A brief introduction to DL related to the field of Population Genetics is summarised by [Korfmann et al. (2023)](https://academic.oup.com/gbe/article/15/2/evad008/6997869).">
+<meta property="og:site-name" content="workshop-kenya">
+<meta name="twitter:title" content="workshop-kenya - 2. Session - Introduction to Deep Learning and Dataset Generation">
+<meta name="twitter:description" content="A brief introduction to DL related to the field of Population Genetics is summarised by [Korfmann et al. (2023)](https://academic.oup.com/gbe/article/15/2/evad008/6997869).">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">workshop-kenya</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">2. Session - Introduction to Deep Learning and Dataset Generation</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Summer School Epidemiology 2023</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction_to_deep_learning.html" class="sidebar-item-text sidebar-link">Introduction to Deep Learning (DL)</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./installation-guide.html" class="sidebar-item-text sidebar-link">Installation guide</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./session_1.html" class="sidebar-item-text sidebar-link">1. Session - MalariaGEN</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./session_1_example.html" class="sidebar-item-text sidebar-link">1. Session (shortened)</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./session_2.html" class="sidebar-item-text sidebar-link active">2. Session - Introduction to Deep Learning and Dataset Generation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./session_3.html" class="sidebar-item-text sidebar-link">3. Session - Training and Inference of Coalescent Models</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#dlmachine-learning-paradigm" id="toc-dlmachine-learning-paradigm" class="nav-link active" data-scroll-target="#dlmachine-learning-paradigm">2.0 DL/Machine Learning Paradigm</a></li>
+  <li><a href="#deep-learning-models" id="toc-deep-learning-models" class="nav-link" data-scroll-target="#deep-learning-models">2.1 Deep learning models</a></li>
+  <li><a href="#training-loop" id="toc-training-loop" class="nav-link" data-scroll-target="#training-loop">2.2 Training loop</a></li>
+  <li><a href="#example-for-inference-of-balancing-selection" id="toc-example-for-inference-of-balancing-selection" class="nav-link" data-scroll-target="#example-for-inference-of-balancing-selection">2.3 Example for inference of balancing selection</a>
+  <ul class="collapse">
+  <li><a href="#coding-start" id="toc-coding-start" class="nav-link" data-scroll-target="#coding-start">2.3.1 Coding start</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/kevinkorfmann/workshop-kenya/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">2. Session - Introduction to Deep Learning and Dataset Generation</h1>
+</div>
+
+<div>
+  <div class="description">
+    A brief introduction to DL related to the field of Population Genetics is summarised by <a href="https://academic.oup.com/gbe/article/15/2/evad008/6997869">Korfmann et al.&nbsp;(2023)</a>.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<p>The aim of this session is provide an intuition of what is it like to develop and apply neural networks using PyTorch, a popular deep learing framework.</p>
+<section id="dlmachine-learning-paradigm" class="level2">
+<h2 class="anchored" data-anchor-id="dlmachine-learning-paradigm">2.0 DL/Machine Learning Paradigm</h2>
+<p>Machine learning (ML) and deep learning (DL) are two subfields of artificial intelligence (AI) that aim to enable computers to learn from data and improve their performance on a specific task without being explicitly programmed. The general paradigm of ML and DL involves the following steps:</p>
+<ol type="1">
+<li><p>Data collection: The first step is to gather the data that will be used to train the machine learning algorithm. This can involve collecting data from various sources, such as sensors, databases, or the internet.</p></li>
+<li><p>Data preprocessing: The collected data needs to be cleaned, transformed, and prepared for the machine learning algorithm. This step includes tasks such as removing irrelevant or redundant data, handling missing values, and scaling the features.</p></li>
+<li><p>Model selection: The next step is to select a machine learning model that is appropriate for the task at hand. There are many different types of machine learning models, such as linear regression, decision trees, and neural networks, and the choice depends on the specific problem.</p></li>
+<li><p>Model training: In this step, the selected machine learning model is trained on the preprocessed data. The goal is to find the optimal parameters that minimize the error between the predicted outputs and the actual outputs.</p></li>
+<li><p>Model evaluation: Once the machine learning model is trained, it needs to be evaluated to measure its performance on new, unseen data. This step helps to ensure that the model is not overfitting to the training data and can generalize well to new data.</p></li>
+<li><p>Model application: Finally, the machine learning model can be deployed in a real-world environment where it can be used to make predictions or decisions.</p></li>
+</ol>
+<p>Deep learning is a specific type of machine learning that uses neural networks with many layers to learn complex representations of the input data. The general paradigm of deep learning is similar to that of machine learning, but it typically involves larger datasets, more complex models, and longer training times. Deep learning models often require specialized hardware, such as graphics processing units (GPUs), to train efficiently.</p>
+</section>
+<section id="deep-learning-models" class="level2">
+<h2 class="anchored" data-anchor-id="deep-learning-models">2.1 Deep learning models</h2>
+<p>There are several types of deep learning models that are used for different tasks and on different types of data. The basic building block of most deep learning models is the neural network, which consists of layers of interconnected nodes (neurons) that perform mathematical operations on the input data to produce an output.</p>
+<p>Here are some of the most common types of deep learning models:</p>
+<ol type="1">
+<li><p>Convolutional Neural Networks (CNNs): CNNs are a type of neural network that is used for image classification, object detection, and other computer vision tasks. They are designed to process data that has a grid-like structure, such as images, and use convolutional layers to extract features from the input. The input to a CNN is a tensor of shape (width, height, channels), where channels correspond to the color channels of the image (e.g.&nbsp;red, green, blue).</p></li>
+<li><p>Recurrent Neural Networks (RNNs): RNNs are a type of neural network that is used for sequential data, such as time series data or natural language processing. They use recurrent layers to maintain a memory of previous inputs, which allows them to model temporal dependencies in the data. The input to an RNN is a sequence of vectors, where each vector corresponds to a timestep in the sequence.</p></li>
+<li><p>Long Short-Term Memory (LSTM) Networks: LSTMs are a type of RNN that is specifically designed to handle long-term dependencies in the input data. They use a special type of recurrent layer that can selectively remember or forget previous inputs. They have often been used for natural language processing tasks such as language modeling or machine translation.</p></li>
+<li><p>Generative Adversarial Networks (GANs): GANs are a type of neural network that is used for generative tasks, such as image synthesis and text generation. They consist of two neural networks that are trained in a game-like setting, with one network generating fake data and the other network trying to distinguish between real and fake data.</p></li>
+<li><p>Autoencoders: Autoencoders are a type of neural network that is used for unsupervised learning and dimensionality reduction. They are designed to encode the input data into a lower-dimensional representation and then decode it back into the original form, with the goal of minimizing the reconstruction error.</p></li>
+<li><p>Transformers: Transformers are a type of neural network that is used for natural language processing tasks, such as language translation and text summarization. They use self-attention mechanisms to process input sequences and can model long-range dependencies in the data.</p></li>
+</ol>
+</section>
+<section id="training-loop" class="level2">
+<h2 class="anchored" data-anchor-id="training-loop">2.2 Training loop</h2>
+<p>In deep learning, the model is typically a neural network with many layers, and the training loop involves adjusting the weights and biases of these layers to minimize the error between the predicted output and the true output. The training loop consists of the following steps:</p>
+<ol type="1">
+<li><p>Data preprocessing: The first step in the training loop is to preprocess the input data to prepare it for use in the neural network. This may involve tasks such as normalization, scaling, or data augmentation.</p></li>
+<li><p>Forward pass: The next step is to perform a forward pass through the neural network using the input data. The output of each layer is passed as input to the next layer, and the process continues until the final layer produces the predicted output.</p></li>
+<li><p>Compute loss: The predicted output is compared to the true output to compute the loss or error between them. The loss function is a measure of how well the model is performing on the training data.</p></li>
+<li><p>Backward pass: The backward pass, also known as backpropagation, involves computing the gradients of the loss with respect to the weights and biases of the neural network. This is done using the chain rule of calculus to propagate the error backwards through the network.</p></li>
+<li><p>Update weights and biases: The gradients computed in the backward pass are used to update the weights and biases of the neural network. This is done using an optimization algorithm such as stochastic gradient descent (SGD), which adjusts the weights and biases in the direction that minimizes the loss function.</p></li>
+<li><p>Repeat: The above steps are repeated for a fixed number of iterations or until the model achieves a satisfactory level of performance on the training data. In practice, the training loop is often run for many epochs, with the entire training dataset passed through the network multiple times.</p></li>
+<li><p>Evaluation: After training is complete, the model is evaluated on a separate test dataset to measure its performance on new, unseen data.</p></li>
+</ol>
+<p>The above steps constitute the basic training loop for deep learning. In practice, there are many variations and extensions to this loop, such as regularization, early stopping, and learning rate scheduling, all of which can improve the performance of the model and make the training process more efficient.</p>
+</section>
+<section id="example-for-inference-of-balancing-selection" class="level2">
+<h2 class="anchored" data-anchor-id="example-for-inference-of-balancing-selection">2.3 Example for inference of balancing selection</h2>
+<p>Prerequisits - Balancing selection:</p>
+<p>Balancing selection is a type of natural selection that maintains genetic diversity in a population by favoring the maintenance of multiple alleles at a particular locus. This can occur through a variety of mechanisms, such as heterozygote advantage, frequency-dependent selection, or spatially variable selection. Balancing selection is in contrast to directional selection, which favors the fixation of a single allele over time.</p>
+<p>One type of balancing selection is overdominance, also known as heterozygote advantage. Overdominance occurs when the heterozygote genotype has a higher fitness than either of the homozygote genotypes. This can occur, for example, when different alleles at a particular locus confer resistance to different diseases or environmental stressors, or when different alleles have complementary functions. In these cases, individuals that are heterozygous for the locus have a selective advantage over individuals that are homozygous for either allele, leading to the maintenance of both alleles in the population.</p>
+<p>Overall, balancing selection is an important mechanism for maintaining genetic diversity in populations, and overdominance is one specific type of balancing selection that can lead to the maintenance of multiple alleles at a particular locus.</p>
+<p>To illustrate the steps of the training loop described above we show a simple example of inferring balancing selection. Is taken from the above, but a description of inference is task is provided below:</p>
+<p>“To illustrate the ability of deep learning to detect signals of recent balancing selection, we simulated a scenario inspired by available data in human population genetics. We simulated 2,000 50 kbp loci under either neutrality or overdominance (i.e.&nbsp;heterozygote advantage, a form of balancing selection) at the center of the locus, conditioned to a demographic model of European populations (Jouganous et al.&nbsp;2017). We performed forward-in-time simulations using SLiM (Haller and Messer 2019), similarly to a previous study (Isildak et al.&nbsp;2021). We imposed selection on a de novo mutation starting 10k years ago, with selection coefficients of 0.25% and 0.5%. We sampled 40 present-day haplotypes, and 10 ancient haplotypes at four different time points (8k, 4k, 2k, 1k years ago, mirroring a plausible human aDNA data collection).”</p>
+<section id="coding-start" class="level3">
+<h3 class="anchored" data-anchor-id="coding-start">2.3.1 Coding start</h3>
+<p>Usually we would start by setting up our simulator to train our training data, but in this case we already have simulations which we can use as training/testing dataset available.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pip install scikit-learn</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pip install chardet</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.optim <span class="im">import</span> lr_scheduler</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset, DataLoader</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision <span class="im">import</span> models</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, ConfusionMatrixDisplay</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> copy</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> workshop_kenya.msms2haplo <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_path <span class="op">=</span> Path(<span class="st">"/home/kevinkorfmann/Projects/temporal-balancing-selection/temp-balance-data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_paths(directories):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    all_files <span class="op">=</span> []</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> d <span class="kw">in</span> directories:</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        path <span class="op">=</span> Path(d)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        files <span class="op">=</span> os.listdir(path)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        files <span class="op">=</span> [path<span class="op">/</span><span class="bu">file</span> <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        all_files.append(files)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> all_files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ancient_files_to_X(files):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    Xs <span class="op">=</span> []</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(files[<span class="dv">0</span>])):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        file_time0, file_time1, file_time2, file_time3 <span class="op">=</span> files[<span class="dv">0</span>][i], files[<span class="dv">1</span>][i], files[<span class="dv">2</span>][i], files[<span class="dv">3</span>][i]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        files_timepoints <span class="op">=</span> [file_time0, file_time1, file_time2, file_time3]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        matrices_timepoints <span class="op">=</span> []</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files_timepoints:</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            chroms, positions <span class="op">=</span> read_msms(filename<span class="op">=</span><span class="bu">file</span>, NCHROMS<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            chroms <span class="op">=</span> sort_min_diff(chroms)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            matrices_timepoints.append(torch.Tensor(myresize(chroms)))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        Xs.append(torch.vstack(matrices_timepoints))</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> torch.stack(Xs)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> X.unsqueeze(<span class="dv">1</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> recent_files_to_X(files):</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    Xs <span class="op">=</span> []</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(files[<span class="dv">4</span>])):</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        file_time <span class="op">=</span> files[<span class="dv">4</span>][i]</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        files_timepoints <span class="op">=</span> [file_time]</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        matrices_timepoints <span class="op">=</span> []</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files_timepoints:</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            chroms, positions <span class="op">=</span> read_msms(filename<span class="op">=</span><span class="bu">file</span>, NCHROMS<span class="op">=</span><span class="dv">40</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            chroms <span class="op">=</span> sort_min_diff(chroms)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>            matrices_timepoints.append(torch.Tensor(myresize(chroms)))</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        Xs.append(torch.vstack(matrices_timepoints))</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> torch.stack(Xs)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> X.unsqueeze(<span class="dv">1</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> myresize(chroms):</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    chroms <span class="op">=</span> torch.Tensor(chroms)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> chroms.shape[<span class="dv">1</span>] <span class="op">&gt;=</span> <span class="dv">40</span>:</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        chroms <span class="op">=</span> chroms[:,:<span class="dv">40</span>]</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        snp_dim <span class="op">=</span> chroms.shape[<span class="dv">1</span>]</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        addzeros <span class="op">=</span> <span class="dv">40</span> <span class="op">-</span> snp_dim <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        chroms <span class="op">=</span> F.pad(chroms, (<span class="dv">1</span>, addzeros), <span class="st">"constant"</span>, <span class="dv">0</span>)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> chroms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>directories <span class="op">=</span>  [data_path<span class="op">/</span><span class="st">"neutral/1"</span>, data_path<span class="op">/</span><span class="st">"neutral/2"</span>, data_path<span class="op">/</span><span class="st">"neutral/3"</span>, data_path<span class="op">/</span><span class="st">"neutral/4"</span>, data_path<span class="op">/</span><span class="st">"neutral/5"</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>files_neutral <span class="op">=</span> get_paths(directories)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>directories <span class="op">=</span>  [data_path<span class="op">/</span><span class="st">"dominance0025/1"</span>, data_path<span class="op">/</span><span class="st">"dominance0025/2"</span>, data_path<span class="op">/</span><span class="st">"dominance0025/3"</span>, data_path<span class="op">/</span><span class="st">"dominance0025/4"</span>, data_path<span class="op">/</span><span class="st">"dominance0025/5"</span>]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>files_dominance0025 <span class="op">=</span> get_paths(directories)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>directories <span class="op">=</span>  [data_path<span class="op">/</span><span class="st">"dominance05/1"</span>, data_path<span class="op">/</span><span class="st">"dominance05/2"</span>, data_path<span class="op">/</span><span class="st">"dominance05/3"</span>, data_path<span class="op">/</span><span class="st">"dominance05/4"</span>, data_path<span class="op">/</span><span class="st">"dominance05/5"</span>]</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>files_dominance05 <span class="op">=</span> get_paths(directories)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>num_samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Xa_neutral <span class="op">=</span> ancient_files_to_X(files_neutral)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ya_neutral <span class="op">=</span> torch.Tensor([<span class="dv">0</span>]<span class="op">*</span>num_samples).<span class="bu">long</span>()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>Xa_dominance0025 <span class="op">=</span> ancient_files_to_X(files_dominance0025)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ya_dominance0025 <span class="op">=</span> torch.Tensor([<span class="dv">1</span>]<span class="op">*</span>num_samples).<span class="bu">long</span>()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>Xa_dominance05 <span class="op">=</span> ancient_files_to_X(files_dominance05)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>ya_dominance05 <span class="op">=</span> torch.Tensor([<span class="dv">2</span>]<span class="op">*</span>num_samples).<span class="bu">long</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>Xa <span class="op">=</span> torch.cat([Xa_neutral, Xa_dominance05, Xa_dominance0025], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>ya <span class="op">=</span> torch.cat([ya_neutral, ya_dominance05, ya_dominance0025], axis<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"Shape of X (ancient) {Xa.shape}")</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#print(f"Shape of y (ancient) {ya.shape}")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shape of X (ancient) torch.Size([3000, 1, 40, 40])
+Shape of y (ancient) torch.Size([3000])</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>num_samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Xr_neutral <span class="op">=</span> recent_files_to_X(files_neutral)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>yr_neutral <span class="op">=</span> torch.Tensor([<span class="dv">0</span>]<span class="op">*</span>num_samples).<span class="bu">long</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>Xr_dominance05 <span class="op">=</span> recent_files_to_X(files_dominance05)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>yr_dominance05 <span class="op">=</span> torch.Tensor([<span class="dv">2</span>]<span class="op">*</span>num_samples).<span class="bu">long</span>()</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>Xr_dominance0025 <span class="op">=</span> recent_files_to_X(files_dominance0025)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>yr_dominance0025 <span class="op">=</span> torch.Tensor([<span class="dv">1</span>]<span class="op">*</span>num_samples).<span class="bu">long</span>()</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>Xr <span class="op">=</span> torch.cat([Xr_neutral, Xr_dominance05, Xr_dominance0025], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>yr <span class="op">=</span> torch.cat([yr_neutral, yr_dominance05, yr_dominance0025], axis<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print(f"Shape of X (ancient) {Xr.shape}")</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(f"Shape of y (ancient) {yr.shape}")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shape of X (ancient) torch.Size([3000, 1, 40, 40])
+Shape of y (ancient) torch.Size([3000])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>random_idx <span class="op">=</span> np.random.choice(<span class="bu">range</span>(<span class="dv">0</span>,<span class="dv">3000</span>), <span class="dv">3000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BalancingSelectionDataset(Dataset):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""BalancingSelectionDataset dataset."""</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, Xa, Xr, ya, yr):</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Xa <span class="op">=</span> Xa</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ya <span class="op">=</span> ya</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Xr <span class="op">=</span> Xr</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.yr <span class="op">=</span> yr</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.Xa.shape[<span class="dv">0</span>]</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.Xa[idx], <span class="va">self</span>.Xr[idx], <span class="va">self</span>.ya[idx], <span class="va">self</span>.yr[idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_dataloader(Xa, Xr, ya, yr):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    split <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    bs_val_dataset <span class="op">=</span> BalancingSelectionDataset(Xa[random_idx[<span class="dv">0</span>:split]], Xr[random_idx[<span class="dv">0</span>:split]], ya[random_idx[<span class="dv">0</span>:split]], yr[random_idx[<span class="dv">0</span>:split]])</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    bs_train_dataset <span class="op">=</span> BalancingSelectionDataset(Xa[random_idx[split:]], Xr[random_idx[split:]], ya[random_idx[split:]], yr[random_idx[split:]])</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    dataset_sizes <span class="op">=</span> {}</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    dataset_sizes[<span class="st">"train"</span>] <span class="op">=</span> <span class="bu">len</span>(bs_train_dataset)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    dataset_sizes[<span class="st">"val"</span>] <span class="op">=</span> <span class="bu">len</span>(bs_val_dataset)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    train_dl <span class="op">=</span> torch.utils.data.DataLoader(bs_train_dataset, batch_size<span class="op">=</span><span class="dv">16</span>, shuffle<span class="op">=</span><span class="va">True</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    val_dl <span class="op">=</span> torch.utils.data.DataLoader(bs_val_dataset, batch_size<span class="op">=</span><span class="dv">16</span>, shuffle<span class="op">=</span><span class="va">True</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    dataloaders <span class="op">=</span> {<span class="st">"train"</span>:train_dl, <span class="st">"val"</span>:val_dl}</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dataloaders, dataset_sizes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ensemble_train_model(model, criterion, optimizer, scheduler, num_epochs<span class="op">=</span><span class="dv">25</span>):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    since <span class="op">=</span> time.time()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    best_model_wts <span class="op">=</span> copy.deepcopy(model.state_dict())</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    best_acc <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(num_epochs):</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>num_epochs <span class="op">-</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'-'</span> <span class="op">*</span> <span class="dv">10</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Each epoch has a training and validation phase</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> phase <span class="kw">in</span> [<span class="st">'train'</span>, <span class="st">'val'</span>]:</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> phase <span class="op">==</span> <span class="st">'train'</span>:</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                model.train()  <span class="co"># Set model to training mode</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>                model.<span class="bu">eval</span>()   <span class="co"># Set model to evaluate mode</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>            running_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>            running_corrects <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Iterate over data.</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> Xa, Xr, ya, yr <span class="kw">in</span> dataloaders[phase]:</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>                Xa <span class="op">=</span> Xa.to(device)</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>                Xr <span class="op">=</span> Xr.to(device)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>                ya <span class="op">=</span> ya.to(device)</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                yr <span class="op">=</span> yr.to(device)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>                <span class="co">#assert ya == yr</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>                <span class="co"># zero the parameter gradients</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>                optimizer.zero_grad()</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>                <span class="co"># forward</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>                <span class="co"># track history if only in train</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>                <span class="cf">with</span> torch.set_grad_enabled(phase <span class="op">==</span> <span class="st">'train'</span>):</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>                    outputs <span class="op">=</span> model(Xa, Xr)</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>                    _, preds <span class="op">=</span> torch.<span class="bu">max</span>(outputs, <span class="dv">1</span>)</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>                    loss <span class="op">=</span> criterion(outputs, ya)</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># backward + optimize only if in training phase</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> phase <span class="op">==</span> <span class="st">'train'</span>:</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>                        loss.backward()</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>                        optimizer.step()</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                <span class="co"># statistics</span></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>                running_loss <span class="op">+=</span> loss.item() <span class="op">*</span> Xa.size(<span class="dv">0</span>)</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>                running_corrects <span class="op">+=</span> torch.<span class="bu">sum</span>(preds <span class="op">==</span> ya.data)</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> phase <span class="op">==</span> <span class="st">'train'</span>:</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>                scheduler.step()</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>            epoch_loss <span class="op">=</span> running_loss <span class="op">/</span> dataset_sizes[phase]</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>            epoch_acc <span class="op">=</span> running_corrects.double() <span class="op">/</span> dataset_sizes[phase]</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>phase<span class="sc">}</span><span class="ss"> Loss: </span><span class="sc">{</span>epoch_loss<span class="sc">:.4f}</span><span class="ss"> Acc: </span><span class="sc">{</span>epoch_acc<span class="sc">:.4f}</span><span class="ss">'</span>)</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>            <span class="co"># deep copy the model</span></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> phase <span class="op">==</span> <span class="st">'val'</span> <span class="kw">and</span> epoch_acc <span class="op">&gt;</span> best_acc:</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>                best_acc <span class="op">=</span> epoch_acc</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>                best_model_wts <span class="op">=</span> copy.deepcopy(model.state_dict())</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>()</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>    time_elapsed <span class="op">=</span> time.time() <span class="op">-</span> since</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Training complete in </span><span class="sc">{</span>time_elapsed <span class="op">//</span> <span class="dv">60</span><span class="sc">:.0f}</span><span class="ss">m </span><span class="sc">{</span>time_elapsed <span class="op">%</span> <span class="dv">60</span><span class="sc">:.0f}</span><span class="ss">s'</span>)</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Best val Acc: </span><span class="sc">{</span>best_acc<span class="sc">:4f}</span><span class="ss">'</span>)</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># load best model weights</span></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>    model.load_state_dict(best_model_wts)</span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TwoBranchEnsembleModel(nn.Module):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, ancient_model, recent_model, nb_classes<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(TwoBranchEnsembleModel, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ancient_model <span class="op">=</span> ancient_model</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.recent_model <span class="op">=</span> recent_model</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        input_size <span class="op">=</span> num_output_layers_single_model<span class="op">+</span>num_output_layers_single_model</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.l0 <span class="op">=</span> nn.Linear(input_size, input_size<span class="op">//</span><span class="dv">2</span>)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.l1 <span class="op">=</span> nn.Linear(input_size<span class="op">//</span><span class="dv">2</span>, input_size<span class="op">//</span><span class="dv">4</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.l2 <span class="op">=</span> nn.Linear(input_size<span class="op">//</span><span class="dv">4</span>, nb_classes)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, ancient_data, recent_data):</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        x0 <span class="op">=</span> <span class="va">self</span>.ancient_model(ancient_data)  </span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        x1 <span class="op">=</span> <span class="va">self</span>.recent_model(recent_data) </span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> torch.cat((x0, x1), dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.l0(F.relu(x))</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.l1(F.relu(x))</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.l2(F.relu(x))</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_convnet(num_output_layers<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> models.resnet18(pretrained<span class="op">=</span><span class="va">False</span>)    </span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    model.conv1 <span class="op">=</span> nn.Conv2d(<span class="dv">1</span>, <span class="dv">64</span>, kernel_size<span class="op">=</span><span class="dv">3</span>, stride<span class="op">=</span><span class="dv">1</span>, padding<span class="op">=</span><span class="dv">1</span>, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    model.fc <span class="op">=</span> nn.Linear(model.fc.in_features, num_output_layers)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>confusion_matrices_both_recent_ancient <span class="op">=</span> []</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">3</span>)):</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get dataloaders</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    dataloaders, dataset_sizes <span class="op">=</span> get_dataloader(Xa, Xr, ya, yr)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># prepare ensemble model</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    num_output_layers_single_model <span class="op">=</span> <span class="dv">64</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    ancient_model <span class="op">=</span> create_convnet(num_output_layers<span class="op">=</span>num_output_layers_single_model)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    recent_model <span class="op">=</span> create_convnet(num_output_layers<span class="op">=</span>num_output_layers_single_model)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> torch.device(<span class="st">"cuda:0"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> TwoBranchEnsembleModel(ancient_model, recent_model, nb_classes<span class="op">=</span><span class="dv">3</span>).to(device)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># prepare training</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    criterion <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    optimizer_ft <span class="op">=</span> optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">0.0005</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    exp_lr_scheduler <span class="op">=</span> lr_scheduler.StepLR(optimizer_ft, step_size<span class="op">=</span><span class="dv">7</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># train for 3 epochs</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> ensemble_train_model(model, criterion, optimizer_ft, exp_lr_scheduler, num_epochs<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># validate</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    y_hat <span class="op">=</span> []</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    y_true <span class="op">=</span> []</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> Xba, Xbr, yba, ybr <span class="kw">in</span> dataloaders[<span class="st">"val"</span>]:</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>            Xba <span class="op">=</span> Xba.to(device)</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>            Xbr <span class="op">=</span> Xbr.to(device)</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>            yba <span class="op">=</span> yba.to(device)</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>            ybr <span class="op">=</span> ybr.to(device)</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>            outputs <span class="op">=</span> model(Xba, Xbr)</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>            _, preds <span class="op">=</span> torch.<span class="bu">max</span>(outputs, <span class="dv">1</span>)</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>            y_hat <span class="op">+=</span> preds.cpu().numpy().tolist()</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>            y_true <span class="op">+=</span> yba.cpu().numpy().tolist()</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># save confusion</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>    cm <span class="op">=</span> confusion_matrix(y_true, y_hat)</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>    cm <span class="op">=</span> cm <span class="op">/</span> cm.<span class="bu">sum</span>(<span class="dv">1</span>)</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>    confusion_matrices_both_recent_ancient.append(cm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_confusion_matrix(confusion_matrices, ax):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    bootstrap_cm <span class="op">=</span> np.array(confusion_matrices).mean(<span class="dv">0</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    bootstrap_stds <span class="op">=</span> np.array(confusion_matrices).std(<span class="dv">0</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># standard deviation labels</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    accuracies <span class="op">=</span> [<span class="bu">str</span>(np.<span class="bu">round</span>(v, <span class="dv">2</span>)) <span class="cf">for</span> v <span class="kw">in</span> bootstrap_cm.flatten().tolist()]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    stds <span class="op">=</span> [<span class="bu">str</span>(np.<span class="bu">round</span>(v, <span class="dv">2</span>)) <span class="cf">for</span> v <span class="kw">in</span> bootstrap_stds.flatten().tolist()]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    labels <span class="op">=</span> [a  <span class="op">+</span> <span class="st">"±</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> s <span class="cf">for</span> a, s <span class="kw">in</span> <span class="bu">zip</span>(accuracies, stds)]</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    labels <span class="op">=</span> np.array(labels).reshape(<span class="dv">3</span>,<span class="dv">3</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    sns.heatmap(bootstrap_cm, annot <span class="op">=</span> labels, fmt <span class="op">=</span> <span class="st">''</span>, cmap<span class="op">=</span><span class="st">"Blues"</span>, ax<span class="op">=</span>ax, xticklabels<span class="op">=</span>[<span class="st">"N"</span>, <span class="st">"D0.25"</span>, <span class="st">"D0.5"</span>], yticklabels<span class="op">=</span>[<span class="st">"N"</span>, <span class="st">"D0.25"</span>, <span class="st">"D0.5"</span>], linecolor<span class="op">=</span><span class="st">'black'</span>, linewidths<span class="op">=</span><span class="fl">.5</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    ax.axhline(y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>,linewidth<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    ax.axhline(y<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span><span class="st">'k'</span>,linewidth<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    ax.axvline(x<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>,linewidth<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    ax.axvline(x<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span><span class="st">'k'</span>,linewidth<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">"white"</span>, font_scale<span class="op">=</span><span class="fl">1.75</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span> , sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>plot_confusion_matrix(confusion_matrices_both_recent_ancient, ax)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"ancient+recent"</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.savefig("./images/confusion.png", dpi=250)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div style="width:500px; height:500px">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/confusion.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Confusion matrix</figcaption><p></p>
+</figure>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

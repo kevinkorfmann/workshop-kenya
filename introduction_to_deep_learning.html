@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>workshop-kenya - Introduction to Deep Learning (DL)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="workshop-kenya - Introduction to Deep Learning (DL)">
+<meta property="og:description" content="This notebook is intented to give a brief overview over the field of DL.">
+<meta property="og:site-name" content="workshop-kenya">
+<meta name="twitter:title" content="workshop-kenya - Introduction to Deep Learning (DL)">
+<meta name="twitter:description" content="This notebook is intented to give a brief overview over the field of DL.">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">workshop-kenya</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Introduction to Deep Learning (DL)</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Summer School Epidemiology 2023</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction_to_deep_learning.html" class="sidebar-item-text sidebar-link active">Introduction to Deep Learning (DL)</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./installation-guide.html" class="sidebar-item-text sidebar-link">Installation guide</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./session_1.html" class="sidebar-item-text sidebar-link">1. Session - MalariaGEN</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./session_1_example.html" class="sidebar-item-text sidebar-link">1. Session (shortened)</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./session_2.html" class="sidebar-item-text sidebar-link">2. Session - Introduction to Deep Learning and Dataset Generation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./session_3.html" class="sidebar-item-text sidebar-link">3. Session - Training and Inference of Coalescent Models</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-dl" id="toc-what-is-dl" class="nav-link active" data-scroll-target="#what-is-dl">What is DL?</a></li>
+  <li><a href="#brief-historical-overview" id="toc-brief-historical-overview" class="nav-link" data-scroll-target="#brief-historical-overview">Brief historical overview</a>
+  <ul class="collapse">
+  <li><a href="#s-50s--from-formulation-to-implementation" id="toc-s-50s--from-formulation-to-implementation" class="nav-link" data-scroll-target="#s-50s--from-formulation-to-implementation">1940s 50s- From formulation to implementation</a></li>
+  <li><a href="#s---ai-winter" id="toc-s---ai-winter" class="nav-link" data-scroll-target="#s---ai-winter">1960s - AI winter</a></li>
+  <li><a href="#s---1990s---incremental-progress" id="toc-s---1990s---incremental-progress" class="nav-link" data-scroll-target="#s---1990s---incremental-progress">1970s - 1990s - Incremental Progress</a></li>
+  <li><a href="#s---from-the-vanishing-gradients-to-imagenet" id="toc-s---from-the-vanishing-gradients-to-imagenet" class="nav-link" data-scroll-target="#s---from-the-vanishing-gradients-to-imagenet">2000s - From the Vanishing Gradients to ImageNet</a></li>
+  </ul></li>
+  <li><a href="#machine-learning-ml-dl-paradigm" id="toc-machine-learning-ml-dl-paradigm" class="nav-link" data-scroll-target="#machine-learning-ml-dl-paradigm">Machine Learning (ML)/ DL Paradigm</a>
+  <ul class="collapse">
+  <li><a href="#domains" id="toc-domains" class="nav-link" data-scroll-target="#domains">Domains</a></li>
+  <li><a href="#the-concept-of-embeddings" id="toc-the-concept-of-embeddings" class="nav-link" data-scroll-target="#the-concept-of-embeddings">The Concept of Embeddings</a></li>
+  </ul></li>
+  <li><a href="#modelsarchitectures-and-applications" id="toc-modelsarchitectures-and-applications" class="nav-link" data-scroll-target="#modelsarchitectures-and-applications">Models/Architectures and Applications</a></li>
+  <li><a href="#the-importance-of-frameworks" id="toc-the-importance-of-frameworks" class="nav-link" data-scroll-target="#the-importance-of-frameworks">The Importance of Frameworks</a></li>
+  <li><a href="#active-research-areas-beyond-the-model" id="toc-active-research-areas-beyond-the-model" class="nav-link" data-scroll-target="#active-research-areas-beyond-the-model">Active Research Areas beyond the Model</a></li>
+  <li><a href="#implementation-overview" id="toc-implementation-overview" class="nav-link" data-scroll-target="#implementation-overview">Implementation (Overview)</a></li>
+  <li><a href="#implementation-technical-level" id="toc-implementation-technical-level" class="nav-link" data-scroll-target="#implementation-technical-level">Implementation (Technical level)</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/kevinkorfmann/workshop-kenya/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Introduction to Deep Learning (DL)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<p>This notebook is intented to give a brief overview over the field of DL.</p>
+<section id="what-is-dl" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-dl">What is DL?</h2>
+<div>
+<p><img src="dl-repr.webp" width="700"></p>
+</div>
+<ul>
+<li><p>A deep neural network is a neural network with many layers -&gt; allowing it to learn hierarchical representations of data.</p></li>
+<li><p>The output of each layer is a nonlinear transformation of the weighted sum of the inputs.</p></li>
+<li><p>Mathematically, we can represent the output of a layer l with <span class="math inline">\(n_l\)</span> neurons as:</p>
+<p><span class="math inline">\(h_l = g(W_l h_{l-1} + b_l)\)</span></p>
+<p>where <span class="math inline">\(h_{l-1}\)</span> is the output of the previous layer, <span class="math inline">\(W_l\)</span> is the weight matrix connecting the neurons of layer <span class="math inline">\(l-1\)</span> to layer <span class="math inline">\(l\)</span>, <span class="math inline">\(b_l\)</span> is the bias vector for layer <span class="math inline">\(l\)</span>, and <span class="math inline">\(g\)</span> is a nonlinear activation function.</p></li>
+<li><p>The training process involves feeding the network a large amount of labeled data and adjusting the network’s parameters to minimize a loss function that measures the difference between the predicted outputs and the true outputs. This is typically done using gradient-based optimization algorithms, such as stochastic gradient descent. Mathematically, we can express the loss function L as:</p>
+<p><span class="math inline">\(L = 1/N \sum_{i=1}^N L_i(y_i, f(x_i; \theta))\)</span></p>
+<p>where N is the number of training samples, <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> are the input and output of the i-th sample, <span class="math inline">\(f(x_i; \theta)\)</span> is the output of the neural network with parameters <span class="math inline">\(\theta\)</span>, and <span class="math inline">\(L_i\)</span> is a per-sample loss function, such as the mean squared error (MSE) or the cross-entropy loss.</p></li>
+</ul>
+<p>Backpropagation:<br>
+* Once the loss has been computed, the next step is to update the parameters of the model (i.e., the weights and biases) to reduce the loss on the training data. Backpropagation is an algorithm used to compute the gradients of the loss with respect to the model parameters.</p>
+<ul>
+<li>By repeating the process of computing the loss and backpropagating the gradients, the neural network gradually learns to make more accurate predictions on the training data. The goal of training is to find the set of parameters that minimizes the loss on the training data while still generalizing well to new, unseen data.</li>
+</ul>
+</section>
+<section id="brief-historical-overview" class="level2">
+<h2 class="anchored" data-anchor-id="brief-historical-overview">Brief historical overview</h2>
+<section id="s-50s--from-formulation-to-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="s-50s--from-formulation-to-implementation">1940s 50s- From formulation to implementation</h3>
+<ul>
+<li>DL history dates back 1943 to Warren McCulloch and Walter Pitts</li>
+<li>Mathematical representation of neurons in the brain might work</li>
+<li>Given the input x = [ x₁, x₂, x₃, …, xₙ ]ᵀ, the inhibitory input i and the threshold Θ, the output y is computed as follows:</li>
+</ul>
+<div>
+<p><img src="neuron.webp" width="400"></p>
+</div>
+<ul>
+<li>Marvin Minsky and Dean Edmonds developed the first neural network computer, called the SNARC (The Stochastic Neural Analog Reinforcement Calculator); designed of tasks like desicion making with human feedback (i.e.&nbsp;navigating through a maze)</li>
+</ul>
+<div>
+<p><img src="snarc.webp" width="400"></p>
+</div>
+<ul>
+<li>Frank Rosenblatt developed the perceptron and simple optimization algorithm</li>
+</ul>
+<div>
+<p><img src="perceptron_schematic.jpg" width="400"></p>
+</div>
+<div>
+<p><img src="perceptron.jpeg" width="400"></p>
+</div>
+<p><img src="rosenblatt.webp" class="img-fluid"></p>
+<section id="brief-description-of-learning-algorithm" class="level4">
+<h4 class="anchored" data-anchor-id="brief-description-of-learning-algorithm">Brief description of learning algorithm</h4>
+<ul>
+<li>Assume that the mᵗʰ example xₘ belongs to class yₘ=0 and that the perceptron correctly predicts ŷₘ =0. In this case, the weight correction is given by Δw = ( 0-0 ) xₘ, i.e.&nbsp;we do not change the weights. The same applies to bias.</li>
+<li>Similarly, if the mᵗʰ example xₘ belongs to class yₘ=1 and the perceptron correctly predicts ŷₘ =1, then the weight correction is Δw = 0. The same applies again for the bias.</li>
+<li>Assume now that the mᵗʰ example xₘ belongs to class yₘ=0 and that the perceptron wrongly predicts ŷₘ =1. In this case, the weight correction is given by Δw = ( 0–1 ) xₘ = –xₘ, while the bias is updated as b = b–1.</li>
+<li>Finally, if the mᵗʰ example xₘ belongs to class yₘ=1 and the perceptron wrongly predicts ŷₘ =0, the weight correction is Δw = xₘ. The bias is also updated according to b = b+1</li>
+</ul>
+<p>(See also <a href="https://towardsdatascience.com/rosenblatts-perceptron-the-very-first-neural-network-37a3ec09038a">Learning algorithm</a>)</p>
+<p>“Stories about the creation of machines having human qualities have long been a fascinating province in the realm of science fiction,” Rosenblatt wrote in 1958. “Yet we are about to witness the birth of such a machine – a machine capable of perceiving, recognizing and identifying its surroundings without any human training or control.”</p>
+</section>
+</section>
+<section id="s---ai-winter" class="level3">
+<h3 class="anchored" data-anchor-id="s---ai-winter">1960s - AI winter</h3>
+<ul>
+<li>Due to limitations of early networks, different research directions in AI become more popular, e.g.&nbsp;Knowledge-Bases and Rule-based systems</li>
+</ul>
+</section>
+<section id="s---1990s---incremental-progress" class="level3">
+<h3 class="anchored" data-anchor-id="s---1990s---incremental-progress">1970s - 1990s - Incremental Progress</h3>
+<ul>
+<li>Computing power still limited but slow incremental progression</li>
+<li>Developement of Backpropagation algorithm (Optimization algorithm)</li>
+<li>Conceptualization of architecture like CNN, RNN, LSTM</li>
+</ul>
+</section>
+<section id="s---from-the-vanishing-gradients-to-imagenet" class="level3">
+<h3 class="anchored" data-anchor-id="s---from-the-vanishing-gradients-to-imagenet">2000s - From the Vanishing Gradients to ImageNet</h3>
+<ul>
+<li>The “Vanishing Gradient Problem” made it difficult to train models with many layers</li>
+<li>First techniques were developed to address the issue, i.e.&nbsp;using activation functions</li>
+<li>2009: ImageNet competition</li>
+</ul>
+<div>
+<p><img src="history.png" width="500"></p>
+</div>
+</section>
+</section>
+<section id="machine-learning-ml-dl-paradigm" class="level2">
+<h2 class="anchored" data-anchor-id="machine-learning-ml-dl-paradigm">Machine Learning (ML)/ DL Paradigm</h2>
+<div>
+<p><img src="loop.jpeg" width="500"></p>
+</div>
+<p>There are three main types of machine learning: supervised learning, unsupervised learning, and reinforcement learning.</p>
+<ul>
+<li><p>In supervised learning, the algorithm is trained on a set of input-output pairs, and the goal is to learn a function that maps inputs to outputs.</p></li>
+<li><p>In unsupervised learning, the algorithm is trained on a set of input data without any labels, and the goal is to learn the underlying structure or patterns in the data.</p></li>
+<li><p>In reinforcement learning, the algorithm learns to make decisions by interacting with an environment and receiving feedback in the form of rewards or punishments.</p></li>
+</ul>
+<section id="domains" class="level3">
+<h3 class="anchored" data-anchor-id="domains">Domains</h3>
+<ul>
+<li>Computer Vision: Neural networks are widely used for tasks such as object detection, image segmentation, and image classification.
+<ul>
+<li>Self-driving cars</li>
+<li>Facial recognition</li>
+<li>Medical image analysis</li>
+</ul></li>
+<li>Natural Language Processing (NLP): Neural networks can be used for tasks such as sentiment analysis, language translation, and speech recognition.
+<ul>
+<li>Chatbots</li>
+<li>Virtual assistants</li>
+<li>Language translation services.</li>
+</ul></li>
+<li>Robotics: Neural networks are used in robotics for tasks such as object detection and grasping, path planning, and motion control.
+<ul>
+<li>Industrial automation</li>
+<li>Autonomous drones</li>
+<li>Humanoid robots</li>
+</ul></li>
+<li>Gaming: Neural networks can be used to build intelligent game agents that can learn to play games such as chess, Go, and video games.</li>
+<li>Finance: Neural networks can be used for tasks such as fraud detection, risk assessment, and portfolio optimization.
+<ul>
+<li>Fraud detection systems</li>
+<li>Credit scoring models</li>
+<li>Trading algorithms.</li>
+</ul></li>
+<li>Healthcare: Neural networks are used for tasks such as disease diagnosis, drug discovery, and personalized medicine.
+<ul>
+<li>Medical imaging analysis</li>
+<li>Clinical decision support systems</li>
+<li>Drug discovery pipelines</li>
+</ul></li>
+<li>Marketing: Neural networks can be used for tasks such as customer segmentation, recommendation systems, and predictive modeling.
+<ul>
+<li>Targeted advertising</li>
+<li>Customer retention</li>
+<li>Product recommendations</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-concept-of-embeddings" class="level3">
+<h3 class="anchored" data-anchor-id="the-concept-of-embeddings">The Concept of Embeddings</h3>
+<p>Embedding” is a general term used in machine learning and refers to the process of mapping a high-dimensional, discrete or categorical input into a continuous, low-dimensional vector space (embedding space) where similar inputs are close to each other. In neural networks, embeddings are often learned in an unsupervised manner, meaning that the embedding space is learned from the data itself, without the need for explicit supervision.</p>
+<p>Embeddings are widely used in natural language processing (NLP) and graph neural networks (GNNs), among other areas. Here are some specific examples:</p>
+<pre><code>NLP: In NLP, embeddings are often used to represent words or phrases as vectors in a continuous space, which can capture semantic and syntactic similarities between words. Word embeddings are typically learned by training a neural network to predict a word from its context (i.e., neighboring words), using a technique called Word2Vec. Once learned, these embeddings can be used as input features for downstream NLP tasks, such as sentiment analysis or named entity recognition.
+
+GNNs: In GNNs, embeddings are used to represent nodes or edges in a graph as vectors in a continuous space, which can capture the structural similarities and relationships between them. Graph embeddings are typically learned by training a neural network to predict the presence or absence of edges between nodes in a graph, using techniques such as graph convolutional networks (GCNs) or graph attention networks (GATs). Once learned, these embeddings can be used as input features for downstream GNN tasks, such as node classification or link prediction.</code></pre>
+<p>Overall, embeddings are a powerful tool for reducing the dimensionality of high-dimensional inputs and capturing their inherent structure and relationships. They have been used successfully in a wide range of machine learning applications, particularly in NLP and GNNs.</p>
+</section>
+</section>
+<section id="modelsarchitectures-and-applications" class="level2">
+<h2 class="anchored" data-anchor-id="modelsarchitectures-and-applications">Models/Architectures and Applications</h2>
+<ul>
+<li>Convolutional Neural Networks (CNNs): CNNs are a type of neural network that is used for image classification, object detection, and other computer vision tasks. They are designed to process data that has a grid-like structure, such as images, and use convolutional layers to extract features from the input. The input to a CNN is a tensor of shape (width, height, channels), where channels correspond to the color channels of the image (e.g.&nbsp;red, green, blue).</li>
+</ul>
+<div>
+<p><img src="cnn.webp" width="500"></p>
+</div>
+<ul>
+<li>Recurrent Neural Networks (RNNs): RNNs are a type of neural network that is used for sequential data, such as time series data or natural language processing. They use recurrent layers to maintain a memory of previous inputs, which allows them to model temporal dependencies in the data. The input to an RNN is a sequence of vectors, where each vector corresponds to a timestep in the sequence.</li>
+</ul>
+<div>
+<p><img src="rnn.webp" width="500"></p>
+</div>
+<ul>
+<li>Long Short-Term Memory (LSTM) Networks: LSTMs are a type of RNN that is specifically designed to handle long-term dependencies in the input data. They use a special type of recurrent layer that can selectively remember or forget previous inputs. They have often been used for natural language processing tasks such as language modeling or machine translation.</li>
+</ul>
+<div>
+<p><img src="lstm.jpg" width="500"></p>
+</div>
+<ul>
+<li>Generative Adversarial Networks (GANs): GANs are a type of neural network that is used for generative tasks, such as image synthesis and text generation. They consist of two neural networks that are trained in a game-like setting, with one network generating fake data and the other network trying to distinguish between real and fake data.</li>
+</ul>
+<div>
+<p><img src="gan.png" width="500"></p>
+</div>
+<ul>
+<li>Autoencoders: Autoencoders are a type of neural network that is used for unsupervised learning and dimensionality reduction. They are designed to encode the input data into a lower-dimensional representation and then decode it back into the original form, with the goal of minimizing the reconstruction error.</li>
+</ul>
+<div>
+<p><img src="auto.png" width="500"></p>
+</div>
+<ul>
+<li>Seq2Seq models: Translation tasks/sentiment analysis
+<div>
+<p><img src="seq2seq.png" width="500"></p>
+</div></li>
+<li>Transformers: Transformers are a type of neural network that is used for natural language processing tasks, such as language translation and text summarization. They use self-attention mechanisms to process input sequences and can model long-range dependencies in the data.</li>
+</ul>
+<div>
+<p><img src="transformer.png" width="500"></p>
+</div>
+<ul>
+<li>Graph neural networks: Generalization the convolution operator from CNNs, to aggregate information over nodes and edges.</li>
+</ul>
+<div>
+<p><img src="mol.png" width="500"></p>
+</div>
+<ul>
+<li>Diffusion Networks: The modern diffusion networks used in deep dream are a type of generative model that leverages the power of the diffusion process to generate images by gradually diffusing noise into the network and mapping it to a target distribution.</li>
+</ul>
+<div>
+<p><img src="diff.png" width="500"></p>
+</div>
+</section>
+<section id="the-importance-of-frameworks" class="level2">
+<h2 class="anchored" data-anchor-id="the-importance-of-frameworks">The Importance of Frameworks</h2>
+<p>Deep learning frameworks provide a powerful set of tools for building, training, and deploying deep neural networks, which have shown exceptional performance on a wide range of tasks. * Quick prototyping, easy experimental setup, availability of proven architecture, hyperparameter, data pipelines * High level abstraction of underlying computation, enable possibility of complex models, no need to worry about memory management * Open-source and activily maintained * Hardware-support (GPUs, TPU, …) * Standardized interface for pretained, state-of-the-art models (see transfer learning)</p>
+<p>Mostpopular frameworks include (Google-developed Tensorflow or) Facebooks Pytorch</p>
+</section>
+<section id="active-research-areas-beyond-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="active-research-areas-beyond-the-model">Active Research Areas beyond the Model</h2>
+<ol type="1">
+<li><p>Optimization techniques: Developing more efficient and effective optimization algorithms to train deep neural networks.</p></li>
+<li><p>Interpretability and explainability: Understanding and interpreting the decisions made by deep learning models, and making them more transparent and interpretable.</p></li>
+<li><p>Transfer learning: Investigating ways to transfer knowledge from one task or domain to another, allowing deep learning models to be trained with less data and time.</p></li>
+<li><p>Adversarial attacks and defenses: Studying how deep learning models can be attacked or fooled, and developing defenses against such attacks.</p></li>
+<li><p>Uncertainty estimation: Developing techniques to estimate the uncertainty of deep learning models, which is important for applications such as autonomous driving and medical diagnosis.</p></li>
+<li><p>Reinforcement learning: Developing deep learning models that can learn from trial and error, and apply this knowledge to make decisions in complex environments.</p></li>
+<li><p>Federated learning: Investigating techniques for training deep learning models on decentralized data, allowing for better privacy and security.</p></li>
+<li><p>Hardware and software acceleration: Developing specialized hardware and software for deep learning, to improve performance and efficiency.</p></li>
+<li><p>Multi-task learning: Studying ways to train deep learning models to perform multiple tasks simultaneously, improving overall efficiency and accuracy.</p></li>
+<li><p>Meta-learning: Developing algorithms that can learn how to learn, enabling more efficient and effective learning on new tasks.</p></li>
+<li><p>Continual learning: Investigating techniques for deep learning models to learn continuously over time, without forgetting previous knowledge.</p></li>
+<li><p>Domain adaptation: Developing methods for adapting deep learning models trained on one domain to perform well on a different domain.</p></li>
+<li><p>Attention mechanisms: Exploring attention-based models that focus on important parts of the input, allowing for better performance on complex tasks.</p></li>
+<li><p>Graph neural networks: Developing deep learning models that can operate on graph-structured data, such as social networks or chemical compounds.</p></li>
+<li><p>Active learning: Investigating methods for training deep learning models with the most informative data samples, allowing for more efficient use of resources.</p></li>
+<li><p>Generative models: Studying deep learning models that can generate new data samples, such as images, audio, or text.</p></li>
+<li><p>Few-shot learning: Developing deep learning models that can learn from just a few examples, enabling faster adaptation to new tasks or domains.</p></li>
+<li><p>Large-scale deployment: Investigating techniques for deploying deep learning models at scale, in order to serve millions or billions of users with high performance and reliability.</p></li>
+<li><p>…</p></li>
+</ol>
+</section>
+<section id="implementation-overview" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-overview">Implementation (Overview)</h2>
+<ul>
+<li><p>Data collection: The first step is to gather the data that will be used to train the machine learning algorithm.</p></li>
+<li><p>Data preprocessing: The collected data needs to be cleaned, transformed, and prepared for the machine learning algorithm. This step includes tasks such as removing irrelevant or redundant data, handling missing values, and scaling the features.</p></li>
+<li><p>Model selection: The next step is to select a machine learning model that is appropriate for the task at hand.</p></li>
+<li><p>Model training: In this step, the selected machine learning model is trained on the preprocessed data. The goal is to find the optimal parameters that minimize the error between the predicted outputs and the actual outputs.</p></li>
+<li><p>Model evaluation: Once the machine learning model is trained, it needs to be evaluated to measure its performance on new, unseen data.</p></li>
+<li><p>Model application: Finally, the machine learning model can be deployed in a real-world environment where it can be used to make predictions or decisions.</p></li>
+</ul>
+</section>
+<section id="implementation-technical-level" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-technical-level">Implementation (Technical level)</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision.transforms <span class="im">as</span> transforms</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision.datasets <span class="im">as</span> datasets</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set random seed for reproducibility</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">0</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define some parameters</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> <span class="fl">0.001</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>num_epochs <span class="op">=</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define data transforms</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_transforms <span class="op">=</span> transforms.Compose([</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    transforms.Resize(<span class="dv">256</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    transforms.CenterCrop(<span class="dv">224</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    transforms.ToTensor(),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    transforms.Normalize(mean<span class="op">=</span>[<span class="fl">0.485</span>, <span class="fl">0.456</span>, <span class="fl">0.406</span>], std<span class="op">=</span>[<span class="fl">0.229</span>, <span class="fl">0.224</span>, <span class="fl">0.225</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load ImageNet dataset</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> datasets.ImageFolder(<span class="st">'/path/to/imagenet/train'</span>, transform<span class="op">=</span>data_transforms)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>val_dataset <span class="op">=</span> datasets.ImageFolder(<span class="st">'/path/to/imagenet/val'</span>, transform<span class="op">=</span>data_transforms)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data loaders</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>train_loader <span class="op">=</span> torch.utils.data.DataLoader(train_dataset, batch_size<span class="op">=</span>batch_size, shuffle<span class="op">=</span><span class="va">True</span>, num_workers<span class="op">=</span>num_workers)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>val_loader <span class="op">=</span> torch.utils.data.DataLoader(val_dataset, batch_size<span class="op">=</span>batch_size, shuffle<span class="op">=</span><span class="va">False</span>, num_workers<span class="op">=</span>num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained ResNet-18 model</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> torch.hub.load(<span class="st">'pytorch/vision:v0.9.0'</span>, <span class="st">'resnet18'</span>, pretrained<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Freeze all layers except the final classifier</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> param <span class="kw">in</span> model.parameters():</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    param.requires_grad <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>model.fc.requires_grad <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace final classifier with our own</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>model.fc <span class="op">=</span> nn.Linear(<span class="dv">512</span>, <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define loss function and optimizer</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> optim.SGD(model.fc.parameters(), lr<span class="op">=</span>lr, momentum<span class="op">=</span><span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train model</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(num_epochs):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    train_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    train_acc <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    val_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    val_acc <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Train on training set</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, (images, labels) <span class="kw">in</span> <span class="bu">enumerate</span>(train_loader):</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> model(images)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> criterion(outputs, labels)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute training accuracy</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        _, preds <span class="op">=</span> torch.<span class="bu">max</span>(outputs, <span class="dv">1</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        train_acc <span class="op">+=</span> torch.<span class="bu">sum</span>(preds <span class="op">==</span> labels.data)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        train_loss <span class="op">+=</span> loss.item() <span class="op">*</span> images.size(<span class="dv">0</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    train_loss <span class="op">/=</span> <span class="bu">len</span>(train_loader.dataset)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    train_acc <span class="op">=</span> train_acc.double() <span class="op">/</span> <span class="bu">len</span>(train_loader.dataset)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluate on validation set</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, (images, labels) <span class="kw">in</span> <span class="bu">enumerate</span>(val_loader):</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>            outputs <span class="op">=</span> model(images)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>            loss <span class="op">=</span> criterion(outputs, labels)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute validation accuracy</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>            _, preds <span class="op">=</span> torch.<span class="bu">max</span>(outputs, <span class="dv">1</span>)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>            val_acc <span class="op">+=</span> torch.<span class="bu">sum</span>(preds <span class="op">==</span> labels.data)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>            val_loss <span class="op">+=</span> loss.item() <span class="op">*</span> images.size(<span class="dv">0</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>        val_loss <span class="op">/=</span> <span class="bu">len</span>(val_loader.dataset)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        val_acc <span class="op">=</span> val_acc.double() <span class="op">/</span> <span class="bu">len</span>(val_loader.dataset)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print epoch results</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>num_epochs<span class="sc">}</span><span class="ss">, Train Loss: </span><span class="sc">{</span>train_loss<span class="sc">:.4f}</span><span class="ss">, Train Acc: </span><span class="sc">{</span>train_acc<span class="sc">:.4f}</span><span class="ss">, Val Loss: </span><span class="sc">{</span>val_loss<span class="sc">:.4f}</span><span class="ss">, Val Acc: </span><span class="sc">{</span>val_acc<span class="sc">:.4f}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
